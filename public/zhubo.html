@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<p id="status">暂未开播</p>
+<button id="btn">点击开播</button>
+
+<script>
+    // 开启Websocket
+    const socket = new WebSocket("ws://115.159.0.12:8080");
+    socket.addEventListener('open', function (event) {
+    });
+
+    // 点击开播
+    const status = document.getElementById('status')
+    const btn = document.getElementById('btn')
+    btn.addEventListener('click', () => {
+        status.innerText = '正在直播'
+        navigator.mediaDevices.getUserMedia({
+            video: {
+                width: 1920,
+                height: 1080
+            },
+            audio: true
+        })
+            .then(function (stream) {
+                const mediaRecorder = new MediaRecorder(stream, {
+                    mimeType: "video/webm; codecs='opus,vp8'"
+                });
+                mediaRecorder.ondataavailable = handleDataAvailable;
+                mediaRecorder.start(30);
+
+                function handleDataAvailable(event) {
+                    socket.send(event.data)
+                }
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+    })
+</script>
+</body>
+</html>

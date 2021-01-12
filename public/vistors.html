@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<video id="video"
+       src=""
+       style="width: 90vw;height: 90vh;border: 1px solid #cccccc;"
+       controls
+></video>
+
+<script>
+    // 开启Websocket
+    const socket = new WebSocket("ws://115.159.0.12:8080");
+    socket.addEventListener('open', function (event) {
+    });
+
+    let video = document.getElementById("video")
+
+
+    // ----- 观众端 -----
+    // 创建MediaSource
+    const mediaSource = new MediaSource();
+
+    // 赋给video
+    const url = URL.createObjectURL(mediaSource);
+    video.src = url;
+
+    // 当MediaSource开启时，创建SourceBuffer
+    let sourceBuffer;
+    mediaSource.addEventListener("sourceopen", function () {
+        sourceBuffer = mediaSource.addSourceBuffer("video/webm; codecs='opus,vp8'");
+        sourceBuffer.addEventListener("updateend", function () {
+
+        })
+    });
+
+    // 添加SourceBuffer
+    function appendToSourceBuffer() {
+        console.log(arrayOfBlobs.length);
+        if (
+            mediaSource.readyState === "open" &&
+            sourceBuffer &&
+            sourceBuffer.updating === false
+        ) {
+            sourceBuffer.appendBuffer(arrayOfBlobs.shift());
+        }
+    }
+
+    // 获取的媒体Blob
+    const arrayOfBlobs = [];
+
+    socket.addEventListener('message', function (event) {
+        // Blob转Arraybuffer
+        event.data.arrayBuffer().then((arraybuffer) => {
+            arrayOfBlobs.push(arraybuffer)
+            appendToSourceBuffer();
+        })
+    });
+</script>
+</body>
+</html>
