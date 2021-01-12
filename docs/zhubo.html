@@ -30,9 +30,9 @@
             audio: true
         })
             .then(function (stream) {
-                console.log(MediaRecorder.isTypeSupported("video/webm"));
+                MediaRecorder.isTypeSupported('video/webm;codecs=vp8,opus')
                 const mediaRecorder = new MediaRecorder(stream, {
-                    mimeType: "video/webm; codecs='opus,vp8'"
+                    mimeType: 'video/webm;codecs=vp8,opus'
                 });
                 mediaRecorder.ondataavailable = handleDataAvailable;
                 mediaRecorder.start(30);
