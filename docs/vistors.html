@@ -17,6 +17,8 @@
 <script>
     // 开启Websocket
     const socket = new WebSocket("wss://hshy.itfarmers.cn:8080/vistors");
+    // const socket = new WebSocket("ws://127.0.0.1:8080/vistors");
+
     socket.addEventListener('open', function (event) {
     });
 
@@ -58,6 +60,7 @@
     }
 
     socket.addEventListener('message', function (event) {
+        console.log(event.data);
         // Blob转Arraybuffer
         event.data.arrayBuffer().then((arraybuffer) => {
             arrayOfBlobs.push(arraybuffer)

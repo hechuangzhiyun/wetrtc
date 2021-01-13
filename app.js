@@ -5,7 +5,7 @@ const https = require('https')
 
 app.listen(3000)
 
-app.use(express.static('public'))
+app.use(express.static('docs'))
 
 const WebSocket = require('ws');
 
@@ -18,17 +18,27 @@ const wss = new WebSocket.Server({server});
 
 server.listen(8080);
 
+// const wss = new WebSocket.Server({
+//     port: 8080
+// })
+
 wss.on('listening', () => {
     console.log('listening');
 })
 
-let connections = []
+let vistors = []
+let blobs = []
 
-wss.on('connection', function connection(ws) {
-    connections.push(ws)
+wss.on('connection', function connection(ws, req) {
+    if (req.url === '/vistors') {
+        vistors.push(ws)
+        setInterval(function () {
+            if (blobs.length !== 0) {
+                ws.send(blobs.shift())
+            }
+        }, 30)
+    }
     ws.on('message', function incoming(message) {
-        connections.forEach((item) => {
-            item.send(message)
-        })
+        blobs.push(message)
     });
 });
