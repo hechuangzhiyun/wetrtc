@@ -30,6 +30,7 @@
     // 赋给video
     const url = URL.createObjectURL(mediaSource);
     video.src = url;
+    console.log(mediaSource.readyState);
 
     // 当MediaSource开启时，创建SourceBuffer
     let sourceBuffer;
@@ -45,16 +46,12 @@
 
     // 添加SourceBuffer
     function appendToSourceBuffer() {
-        console.log(mediaSource.readyState);
-        console.log(sourceBuffer);
-        console.log(sourceBuffer.updating);
         if (
             mediaSource.readyState === "open" &&
             sourceBuffer &&
             sourceBuffer.updating === false
         ) {
             const buf = arrayOfBlobs.shift()
-            console.log(buf);
             sourceBuffer.appendBuffer(buf);
         }
     }
