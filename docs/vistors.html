@@ -59,6 +59,7 @@
     socket.addEventListener('message', function (event) {
         // Blob转Arraybuffer
         event.data.arrayBuffer().then((arraybuffer) => {
+            console.log(arraybuffer);
             arrayOfBlobs.push(arraybuffer)
             appendToSourceBuffer();
         })
