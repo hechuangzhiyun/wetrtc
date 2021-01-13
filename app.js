@@ -11,10 +11,10 @@ const WebSocket = require('ws');
 
 
 const server = https.createServer({
-  cert: fs.readFileSync('./cert/cert1.pem'),
-  key: fs.readFileSync('./cert/privkey1.pem')
+    cert: fs.readFileSync('./cert/cert1.pem'),
+    key: fs.readFileSync('./cert/privkey1.pem')
 });
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({server});
 
 server.listen(8080);
 
@@ -27,7 +27,7 @@ let connections = []
 wss.on('connection', function connection(ws) {
     connections.push(ws)
     ws.on('message', function incoming(message) {
-        connections.forEach((item)=>{
+        connections.forEach((item) => {
             item.send(message)
         })
     });
