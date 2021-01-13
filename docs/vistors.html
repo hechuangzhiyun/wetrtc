@@ -51,6 +51,7 @@
             sourceBuffer.updating === false
         ) {
             const buf = arrayOfBlobs.shift()
+            console.log(buf);
             sourceBuffer.appendBuffer(buf);
         }
     }
