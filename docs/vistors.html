@@ -45,6 +45,9 @@
 
     // 添加SourceBuffer
     function appendToSourceBuffer() {
+        console.log(mediaSource.readyState);
+        console.log(sourceBuffer);
+        console.log(sourceBuffer.updating);
         if (
             mediaSource.readyState === "open" &&
             sourceBuffer &&
@@ -59,7 +62,6 @@
     socket.addEventListener('message', function (event) {
         // Blob转Arraybuffer
         event.data.arrayBuffer().then((arraybuffer) => {
-            console.log(arraybuffer);
             arrayOfBlobs.push(arraybuffer)
             appendToSourceBuffer();
         })
