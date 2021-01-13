@@ -35,6 +35,7 @@
     // 当MediaSource开启时，创建SourceBuffer
     let sourceBuffer;
     mediaSource.addEventListener("sourceopen", function () {
+        console.log(1);
         sourceBuffer = mediaSource.addSourceBuffer('video/webm;codecs=vp8,opus');
         sourceBuffer.addEventListener("updateend", function () {
 
