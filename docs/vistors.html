@@ -50,7 +50,8 @@
             sourceBuffer &&
             sourceBuffer.updating === false
         ) {
-            sourceBuffer.appendBuffer(arrayOfBlobs.shift());
+            const buf = arrayOfBlobs.shift()
+            sourceBuffer.appendBuffer(buf);
         }
     }
 
