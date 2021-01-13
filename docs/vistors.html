@@ -40,9 +40,11 @@
         })
     });
 
+    // 获取的媒体Blob
+    const arrayOfBlobs = [];
+
     // 添加SourceBuffer
     function appendToSourceBuffer() {
-        console.log(arrayOfBlobs.length);
         if (
             mediaSource.readyState === "open" &&
             sourceBuffer &&
@@ -52,13 +54,9 @@
         }
     }
 
-    // 获取的媒体Blob
-    const arrayOfBlobs = [];
-
     socket.addEventListener('message', function (event) {
         // Blob转Arraybuffer
         event.data.arrayBuffer().then((arraybuffer) => {
-            console.log(arraybuffer);
             arrayOfBlobs.push(arraybuffer)
             appendToSourceBuffer();
         })
