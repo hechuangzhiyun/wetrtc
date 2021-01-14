@@ -37,7 +37,7 @@
                     mimeType: 'video/webm;codecs=vp8,opus'
                 });
                 mediaRecorder.ondataavailable = handleDataAvailable;
-                mediaRecorder.start(30);
+                mediaRecorder.start(1000);
 
                 function handleDataAvailable(event) {
                     socket.send(event.data)
